@@ -11,3 +11,11 @@ class SplitListMixin:
                 start_index = number
         return list_for_printing
 
+
+class ValidateUserValueMixin:
+    '''Validate an initial value for a game.'''
+    @classmethod
+    def validate_initial_value(cls, user_input: str) -> bool:
+        if user_input not in cls.AVAILABLE_VALUES:
+            return False
+        return True

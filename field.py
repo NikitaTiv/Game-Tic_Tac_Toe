@@ -1,19 +1,18 @@
 import math
-from mixins import SplitListMixin
+from mixins import SplitListMixin, ValidateUserValueMixin
 
 
-class Field(SplitListMixin):
-    AVAILABLE_SIZES = [9, 16, 25]
+class Field(SplitListMixin, ValidateUserValueMixin):
+    AVAILABLE_VALUES = [9, 16, 25]
 
-    @classmethod
-    def validate_board_size(cls, board_size: int) -> Exception | bool:
-        if board_size not in cls.AVAILABLE_SIZES:
+    def __init__(self, board_size: int) -> None:
+        if not self.validate_initial_value(board_size):
             raise ValueError('You have specified an incorrect field size.')
-        return True
+        self.board_size = board_size
+        self.win_combinations = self.get_win_combitation()
 
-    def __init__(self, board_size: str) -> None:
-        if self.validate_board_size(board_size):
-            self.board_size = board_size
+    def get_win_combitation(self) -> list[tuple[int | int | int]]:
+        pass
 
     @property
     def field_elde(self) -> int:
