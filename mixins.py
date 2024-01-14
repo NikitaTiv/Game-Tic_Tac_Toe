@@ -32,7 +32,6 @@ class WinCombinationMixin:
 
         return left_diagonal, right_diagonal
 
-
     def get_win_combitation(self, board_size: int, lenght: int) -> list[tuple[int | int | int]]:
         cell_list = convert_iteration_to_list(range(board_size))
 

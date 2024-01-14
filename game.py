@@ -1,28 +1,24 @@
+from typing import Callable
 import random
 
 from field import Field
 from mixins import WinCombinationMixin
 from user import User
+from utils import repeat_on_fail
 
 
 class Game(WinCombinationMixin):
     def __getattr__(self, item):
         return False
 
+    @repeat_on_fail
     def preparation_for_game(self) -> None:
         '''
         Make the preparation and create an initial list for the game.
         '''
-        try:
-            if not self.board:
-                self.board = Field(int(input('Please enter the valid field size: ')))
-            if not self.user:
-                self.user = User(input('Please enter a symbol: '))
-        except ValueError as error:
-            print(error)
-            return self.preparation_for_game()
-
-        self.cell_list = [digit for digit in range(1, self.board.board_size+1)]
+        self.board = Field(int(input('Please enter the valid field size: ')))
+        self.user = User(input('Please enter a symbol: '))
+        self.cell_list = [str(digit) for digit in range(1, self.board.board_size+1)]
         self.win_combinations = self.get_win_combitation(self.board.board_size, self.board.field_elde)
         self.pc_symbol = random.choice(list(set(self.user.AVAILABLE_VALUES) - {self.user.user_symbol}))
         print(f'The computer has selected a symbol {self.pc_symbol}')
@@ -50,15 +46,12 @@ class Game(WinCombinationMixin):
         if not self.is_game_finished('player'):
             self.make_pc_move()
 
+    @repeat_on_fail
     def game_process(self):
         self.board.draw_field(self.cell_list)
-        try:
-            self.cell_list = self.user.make_user_move(self.cell_list, self.board.board_size)
-        except (ValueError, IndexError) as error:
-            print(error)
-            return self.game_process()
+        self.cell_list = self.user.make_user_move(self.cell_list, self.board.board_size)
         self.calculate_game_result()
 
-    def run(self):
+    def run(self) -> None:
         self.preparation_for_game()
         self.game_process()
