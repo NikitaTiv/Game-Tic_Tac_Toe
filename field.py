@@ -15,7 +15,7 @@ class Field(ValidateUserValueMixin):
     def field_elde(self) -> int:
         return int(math.sqrt(self.board_size))
 
-    def draw_field(self, list_cell: list[int | str]) -> None:
+    def draw_field(self, list_cell: list[str]) -> None:
         processed_list_cell = list(separate_list(list_cell, self.field_elde))
         for row in processed_list_cell:
             print(''.join([f'{cell: <5}'for cell in row]))
