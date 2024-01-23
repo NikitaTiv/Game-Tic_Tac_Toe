@@ -11,7 +11,9 @@ def convert_iteration_to_list(obj: Iterator[Any] | builtins.range) -> list[Any]:
     return list(obj)
 
 
-def downgrade_result(value: int, reduce_value: int) -> int:
+def change_integer(value: int, reduce_value: int, operation: str) -> int:
+    if operation == '+':
+        return value + reduce_value
     return value - reduce_value
 
 

@@ -2,17 +2,6 @@ from typing import Iterator
 from utils import convert_iteration_to_list, separate_list
 
 
-class ValidateUserValueMixin:
-    '''Validate an initial value for a game.'''
-    AVAILABLE_VALUES: list = []
-
-    @classmethod
-    def validate_initial_value(cls, user_input: int | str) -> bool:
-        if user_input not in cls.AVAILABLE_VALUES:
-            return False
-        return True
-
-
 class WinCombinationMixin:
     @staticmethod
     def __get_vertical_win_combination(horizont_combinations: list[list[int]]) -> Iterator[list[int]]:
